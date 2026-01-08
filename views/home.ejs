@@ -1,15 +1,21 @@
 <!DOCTYPE html>
-<html>
-  <head>
-    <title>Activity Tracker</title>
-  </head>
-  <body>
-    <h1>Activity Tracker</h1>
-    <p>The server rendered this page.</p>
-    <form method="POST" action="/log">
-        <input type="text" name="activity" placeholder="What did you do today?"/>
-        <button type="submit">Save</button>
-        Hello <%= locals.text || "Default text" %>
-    </form>
-  </body>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <h1>Welcome to PAKT</h1>
+  <p>The activity and knowledge tracker</p>
+  <form method="POST" action="/log">
+    <input type="text" name="username" placeholder="Enter username: ">
+    <input type="password" name="password" placeholder="Enter password: ">
+    <button type="submit">Login</button>
+  </form>
+  <form method="POST" action="/signup">
+    <button type="submit">Sign up</button>
+  </form>
+  
+</body>
 </html>
