@@ -9,6 +9,7 @@
     <form method="POST" action="/log">
         <input type="text" name="activity" placeholder="What did you do today?"/>
         <button type="submit">Save</button>
+        Hello <%= locals.text || "Default text" %>
     </form>
   </body>
 </html>
