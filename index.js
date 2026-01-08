@@ -8,10 +8,16 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 
 
+// app.use(logger)
 app.set("view engine", "ejs");
 app.use(express.urlencoded({extended: true}));
-// app.use(logger)
 app.use(express.json())
+
+const signupRouter = require("./routes/signup")
+const userRouter = require("./routes/users")
+
+app.use("/signup", signupRouter)
+app.use("/users", userRouter)
 
 app.get("/", (req, res)=>{
     res.render("home");
@@ -23,14 +29,7 @@ app.post("/log", (req, res) =>{
     res.redirect("/")
 })
 
-app.post("/signup", (req, res)=>{
-    res.render("/newUser")
-})
 
-const userRouter = require("./routes/users")
-
-
-app.use("/users", userRouter)
 
 
 // function logger(req, res, next){
@@ -38,7 +37,6 @@ app.use("/users", userRouter)
 //     next()
 // }
 
-/* SERVER */
 app.listen(PORT, ()=>{
     console.log(`Servers is listening on http://localhost:${PORT}`)
 });
