@@ -9,6 +9,7 @@ const PORT = process.env.PORT || 3000;
 
 
 // app.use(logger)
+app.use(express.static("public"))
 app.set("view engine", "ejs");
 app.use(express.urlencoded({extended: true}));
 app.use(express.json())
@@ -28,6 +29,8 @@ app.post("/log", (req, res) =>{
     console.log(req.body.activity);
     res.redirect("/")
 })
+
+
 
 
 

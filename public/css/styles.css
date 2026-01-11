@@ -1,0 +1,10 @@
+#signupForm {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+#homeForm {
+    display: flex;
+  flex-direction: column;
+  gap: 8px;
+}

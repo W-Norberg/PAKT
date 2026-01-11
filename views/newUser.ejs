@@ -4,14 +4,24 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Create new user</title>
+
+    <link rel="stylesheet" href="/css/styles.css">
+
+    <script src="clientSideVerification\signupClientValid.js" defer></script>
 </head>
 <body>
   <h1>PAKT</h1>
     <h2>Create new user: </h2>
-    <form method="POST" action="/signup">
-    <input type="text" name="username" placeholder="Enter username: ">
-    <input type="password" name="password" placeholder="Enter password: ">
-    <input type="password" name="passwordAgain" placeholder="Enter password again: ">
+    <form method="POST" action="/signup" id="signupForm">
+    <input type="text" name="username" placeholder="Enter username: " id="signupUsername">
+    <small id="usernameErrorMessage" style="display: none;">Username invalid, minimum 3 characters and no special characters &#40; &#64; &pound; &#36; &lt; &amp; ... &#41;</small>
+
+    <input type="password" name="password" placeholder="Enter password: " id="signupPassword1">
+    <small id="password1ErrorMessage" style="display: none;">Password invalid, must be minimum 5 characters long and contain one number &#40;1,2,3...&#41; and one special character &#40; &#64; &pound; &#36; &lt; &amp; ... &#41;</small>
+
+    <input type="password" name="passwordAgain" placeholder="Enter password again: " id="signupPassword2">
+    <small id="password2ErrorMessage" style="display: none;">Password doesn't match</small>
+
     <button type="submit">Create user</button>
   </form>
 </body>
