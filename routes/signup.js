@@ -1,13 +1,27 @@
 const express = require("express")
 const router = express.Router()
+express().use(express.json())
+
+const bodyParser = require("body-parser")
+const { check, validationResult} = require("express-validator")
+const urlencodedParser = bodyParser.urlencoded({extended: false})
+
 
 router.get("/", (req,res)=>{
     res.render("newUser")
 })
 
-router.post("/", (req, res)=>{
-    res.send(`Your username is ${req.body.username}
-        and Your password is ${req.body.password}`)
+router.post("/", urlencodedParser, [
+    check("username", "Username must be 3+ characters long")
+        .exists()
+        .isLength({ min: 3 })
+
+
+], (req, res)=>{
+    const errors = validationResult(req)
+    if(!errors.isEmpty()){
+        return res.status(422).json(errors.array())
+    }
 })
 
 

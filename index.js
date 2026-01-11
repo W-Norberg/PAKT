@@ -4,6 +4,8 @@ db.pragma("foreign_keys = ON")
 
 
 const express = require("express")
+
+
 const app = express();
 const PORT = process.env.PORT || 3000;
 
@@ -13,6 +15,7 @@ app.use(express.static("public"))
 app.set("view engine", "ejs");
 app.use(express.urlencoded({extended: true}));
 app.use(express.json())
+
 
 const signupRouter = require("./routes/signup")
 const userRouter = require("./routes/users")
