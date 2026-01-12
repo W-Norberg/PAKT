@@ -1,14 +1,7 @@
-const Database = require("better-sqlite3")
-const db = new Database("database.db");
-db.pragma("foreign_keys = ON")
-
-
 const express = require("express")
-
 
 const app = express();
 const PORT = process.env.PORT || 3000;
-
 
 // app.use(logger)
 app.use(express.static("public"))

@@ -47,6 +47,7 @@ document.getElementById("signupForm").addEventListener("submit", function(e){
             }else{
                 password2ErrorMessage.style.display = "none";
             }
+
             if (!valid){
                 e.preventDefault()
             }
