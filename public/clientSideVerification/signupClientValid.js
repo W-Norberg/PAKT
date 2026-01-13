@@ -7,8 +7,9 @@ function containsLetters(str){
 }
 
 function containsSpecialCharacters(str){
-    return /\W/.test(str);
+    return /[^\p{L}\p{N}]/gu.test(str);
 }
+
 
 document.getElementById("signupForm").addEventListener("submit", function(e){
             
