@@ -17,7 +17,7 @@ app.use("/signup", signupRouter)
 app.use("/users", userRouter)
 
 app.get("/", (req, res)=>{
-    res.render("home");
+    res.render("login");
 });
 
 

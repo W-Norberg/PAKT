@@ -1,11 +1,18 @@
 const Database = require("better-sqlite3")
+const express = require("express")
+const bodyParser = require("body-parser")
+const { body, matchedData, validationResult} = require("express-validator")
+const argon2 = require("argon2")
+
+
+
 const db = new Database("db/app.db");
 db.pragma("foreign_keys = ON")
 let sql;
 let createUsersTable = `CREATE TABLE IF NOT EXISTS users(
         id INTEGER PRIMARY KEY,
         username TEXT NOT NULL UNIQUE,
-        password TEXT NOT NULL,
+        password_hash TEXT NOT NULL,
         created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
         )`
 
@@ -13,12 +20,9 @@ let createUsersTable = `CREATE TABLE IF NOT EXISTS users(
 db.exec(createUsersTable)
 
 
-const express = require("express")
 const router = express.Router()
 express().use(express.json())
 
-const bodyParser = require("body-parser")
-const { body, matchedData, validationResult} = require("express-validator")
 const urlencodedParser = bodyParser.urlencoded({extended: false})
 
 
@@ -40,7 +44,7 @@ router.post("/",
     .matches(/\W/).withMessage("Must contain a special character")
     
 
-    , (req, res, next)=>{
+    , async (req, res, next)=>{
         const errors = validationResult(req);
         if(!errors.isEmpty()){
             return res.status(400).render("newUser", {
@@ -52,15 +56,21 @@ router.post("/",
         //From here req.body.username and req.body.password should be clean and safe
         let username = req.body.username
         let password = req.body.password
+        let password_hash;
+         try{
+                password_hash = await argon2.hash(password, {type: argon2.argon2id});
+            } catch(err){
+                res.status(500).send("Internal server error")
+            }
 
         const insertUser = `
-        INSERT INTO users (username, password)
+        INSERT INTO users (username, password_hash)
         VALUES (?, ?)`
         
         try{
-            console.log("Entering user into database...")
+            console.log(`Entering user ${username} into database...`)
             const stmt = db.prepare(insertUser)
-            stmt.run(username, password)
+            stmt.run(username, password_hash)
             res.redirect("/")
         } catch(err){
             if(err.code === "SQLITE_CONSTRAINT_UNIQUE"){
