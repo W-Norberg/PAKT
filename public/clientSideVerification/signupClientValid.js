@@ -6,8 +6,13 @@ function containsLetters(str){
     return /[a-z]/.test(str)
 }
 
-function containsSpecialCharacters(str){
-    return /[^\p{L}\p{N}]/gu.test(str);
+function containsSpecialCharactersUsername(str){
+    console.log("Username test: ",/^[\p{L}\p{N}]+$/u.test(str));
+    return !(/^[\p{L}\p{N}]+$/u.test(str));
+}
+function passwordValidCharacters(pw){
+    return /^(?=.*[\p{Script=Latin}])(?=.*\p{N})(?=.*[@£$€{}\[\]\\!#¤%&\/()=?*+\-_.:,;])[\p{Script=Latin}\p{N}@£$€{}\[\]\\!#¤%&\/()=?*+\-_.:,;]+$/u.test(pw);
+
 }
 
 
@@ -25,7 +30,7 @@ document.getElementById("signupForm").addEventListener("submit", function(e){
             
 
             //If too short, no normal letters, or contains special characters its invalid
-            if((username.length < 3) || (!containsLetters(username)) || (containsSpecialCharacters(username))){
+            if((username.length < 3) || (!containsLetters(username)) || (containsSpecialCharactersUsername(username))){
                 valid = false;
                 usernameErrorMessage.style.display = "block";
             }else{
@@ -34,7 +39,7 @@ document.getElementById("signupForm").addEventListener("submit", function(e){
             }
 
             //If no numbers or no letters or too short or no special characters its invalid
-            if(!containsNumbers(password1) || (!containsLetters(password1)) || (password1.length < 5) || !(containsSpecialCharacters(password1))){
+            if(!passwordValidCharacters(password1) || password1.length < 5){
                 valid = false;
                 password1ErrorMessage.style.display = "block";
             }else{

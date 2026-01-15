@@ -40,8 +40,7 @@ router.post("/",
     body("password")
     .notEmpty().withMessage("Password is required")
     .isLength({min: 5}).withMessage("Must be at least 5 characters")
-    .matches(/\d/).withMessage("Must contain a number")
-    .matches(/\W/).withMessage("Must contain a special character")
+    .matches(/^(?=.*[\p{Script=Latin}])(?=.*\p{N})(?=.*[@£$€{}\[\]\\!#¤%&\/()=?*+\-_.:,;])[\p{Script=Latin}\p{N}@£$€{}\[\]\\!#¤%&\/()=?*+\-_.:,;]+$/u).withMessage("Must contain a number, a letter and a special character (@ £ $ € { } [ ] \ ! # ¤ % & / ( ) = ? * + - _ . : , ;)")
     
 
     , async (req, res, next)=>{
@@ -68,13 +67,13 @@ router.post("/",
         VALUES (?, ?)`
         
         try{
-            console.log(`Entering user ${username} into database...`)
+            console.log(`Trying to enter user ${username} into database...`)
             const stmt = db.prepare(insertUser)
             stmt.run(username, password_hash)
-            res.redirect("/")
+            res.redirect("/login")
         } catch(err){
             if(err.code === "SQLITE_CONSTRAINT_UNIQUE"){
-                console.log("Username already in use!")
+                console.log("Username already in use! User not added")
                 return res.status(409).render("newUser",{
                     errors: [{msg: "Username already in use"}],
                     values: {username}
@@ -88,4 +87,4 @@ router.post("/",
 })
 
 
-module.exports = router
+module.exports = router;

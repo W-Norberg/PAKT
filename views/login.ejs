@@ -10,10 +10,14 @@
   <h1>PAKT</h1>
   <h2>Welcome to PAKT</h2>
   <p>The personal activity and knowledge tracker</p>
-  <form method="POST" action="/log" id="loginForm">
+  <form method="POST" action="/login" id="loginForm">
     <input type="text" name="username" placeholder="Enter username: ">
     <input type="password" name="password" placeholder="Enter password: ">
     <button type="submit">Login</button>
+        <% if (values.error) { %>
+          <% console.log(values.error) %>
+        <small style="color: red;">Wrong username or password</small>
+    <% } %>
   </form>
   <form method="GET" action="/signup">
     <button type="submit">Sign up</button>

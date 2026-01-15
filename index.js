@@ -1,4 +1,10 @@
 const express = require("express")
+const Database = require("better-sqlite3")
+
+const db = new Database("db/app.db");
+db.pragma("foreign_keys = ON")
+let sql;
+
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -11,23 +17,14 @@ app.use(express.json())
 
 
 const signupRouter = require("./routes/signup")
-const userRouter = require("./routes/users")
+const loginRouter = require("./routes/login")
 
 app.use("/signup", signupRouter)
-app.use("/users", userRouter)
+app.use("/login", loginRouter)
 
 app.get("/", (req, res)=>{
-    res.render("login");
-});
-
-
-app.post("/log", (req, res) =>{
-    console.log(req.body.activity);
-    res.redirect("/")
-})
-
-
-
+    res.render("home", {values: {}});
+}); 
 
 
 
