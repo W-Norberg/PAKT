@@ -18,8 +18,8 @@ router.get("/", (req,res)=>{
 router.post("/submitNewActivity",
     body("activity")
     .trim()
-    .notEmpty().withMessage("Username is required")
-    .isLength({ min: 3, max: 30}).withMessage("Must be 3-30 characters")
+    .notEmpty().withMessage("Activity is required")
+    .isLength({ min: 2, max: 64}).withMessage("Must be 2-64 characters")
     .matches(/^[\p{L}\p{N}]+$/u).withMessage("Only letters and numbers allowed")
 
     , async (req, res, next)=>{
