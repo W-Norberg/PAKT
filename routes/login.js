@@ -1,15 +1,23 @@
-const express = require("express")
+require("dotenv").config();
+const express = require("express");
 const app = express();
 const bodyParser = require("body-parser")
 const { body, matchedData, validationResult} = require("express-validator")
-const Database = require("better-sqlite3")
-const argon2 = require("argon2")
-
+const Database = require("better-sqlite3");
+const argon2 = require("argon2");
+const session = require("express-session");
+//Remember to comment your code!!!!!!!
 
 const db = new Database("db/app.db");
-db.pragma("foreign_keys = ON")
+db.pragma("foreign_keys = ON");
 let sql;
 
+
+app.use(session({
+    secret: process.env.SESSION_SECRET,
+    resave: false,
+    saveUninitialized: false
+}));
 
 const router = express.Router()
 express().use(express.json())
@@ -52,12 +60,24 @@ router.post("/",
 
         //From here req.body.username and req.body.password should be clean and safe
         const user = db.prepare("SELECT * FROM users WHERE username = ?").get(req.body.username)
-        if(!user){
+        if (!user){
             return giveUsernameOrPasswordError(res, errors)       
         }
-        console.log("enenfen")
+        try {
+            if (await argon2.verify(user.password_hash, req.body.password)){
+                console.log(`Correct password for ${user.username}!`)
+                // Login succes logic here
+                req.session.userId = user.id
 
-        res.redirect("/")
+            } else {
+                console.log("password did not match, returning wrong username or password...")
+                giveUsernameOrPasswordError(res, errors)
+            }
+        } catch{
+            console.log("Internal error")
+            res.send("Internal error, sorry!")
+        }
+
 
 
 })

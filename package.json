@@ -16,8 +16,10 @@
     "argon2": "^0.44.0",
     "better-sqlite3": "^12.5.0",
     "body-parser": "^2.2.2",
+    "dotenv": "^17.2.3",
     "ejs": "^3.1.10",
     "express": "^5.2.1",
+    "express-session": "^1.18.2",
     "express-validator": "^7.3.1"
   },
   "devDependencies": {
