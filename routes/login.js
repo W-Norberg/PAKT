@@ -1,26 +1,26 @@
 require("dotenv").config();
 const express = require("express");
-const app = express();
 const bodyParser = require("body-parser")
 const { body, matchedData, validationResult} = require("express-validator")
-const Database = require("better-sqlite3");
 const argon2 = require("argon2");
-const session = require("express-session");
+const db = require("../db");
+
+
 //Remember to comment your code!!!!!!!
 
-const db = new Database("db/app.db");
-db.pragma("foreign_keys = ON");
 let sql;
-
-
-app.use(session({
-    secret: process.env.SESSION_SECRET,
-    resave: false,
-    saveUninitialized: false
-}));
 
 const router = express.Router()
 express().use(express.json())
+
+
+const urlencodedParser = bodyParser.urlencoded({extended: false})
+router.use(express.urlencoded({extended: true}));
+
+
+
+
+
 
 function giveUsernameOrPasswordError(res, errors){
     return res.status(400).render("login", {
@@ -66,8 +66,8 @@ router.post("/",
         try {
             if (await argon2.verify(user.password_hash, req.body.password)){
                 console.log(`Correct password for ${user.username}!`)
-                // Login succes logic here
-                req.session.userId = user.id
+                req.session.userId = user.id;
+                res.redirect("activityTracker")
 
             } else {
                 console.log("password did not match, returning wrong username or password...")

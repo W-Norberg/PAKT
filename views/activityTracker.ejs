@@ -5,6 +5,7 @@
   </head>
   <body>
     <h1>Activity Tracker</h1>
+    <h2>Welcome  <%= locals.userId %></h2>
     <form method="POST" action="/log">
         <input type="text" name="activity" placeholder="What did you do today?"/>
         <button type="submit">Save</button>

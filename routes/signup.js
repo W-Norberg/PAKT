@@ -1,14 +1,15 @@
-const Database = require("better-sqlite3")
 const express = require("express")
 const bodyParser = require("body-parser")
 const { body, matchedData, validationResult} = require("express-validator")
 const argon2 = require("argon2")
+const db = require("../db");
 
 
+const router = express.Router()
+const urlencodedParser = bodyParser.urlencoded({extended: false})
+router.use(express.urlencoded({extended: true}));
 
-const db = new Database("db/app.db");
-db.pragma("foreign_keys = ON")
-let sql;
+
 let createUsersTable = `CREATE TABLE IF NOT EXISTS users(
         id INTEGER PRIMARY KEY,
         username TEXT NOT NULL UNIQUE,
@@ -20,10 +21,8 @@ let createUsersTable = `CREATE TABLE IF NOT EXISTS users(
 db.exec(createUsersTable)
 
 
-const router = express.Router()
-express().use(express.json())
 
-const urlencodedParser = bodyParser.urlencoded({extended: false})
+
 
 
 router.get("/", (req,res)=>{

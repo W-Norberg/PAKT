@@ -1,5 +1,6 @@
 const express = require("express");
 const Database = require("better-sqlite3");
+const session = require("express-session");
 
 
 
@@ -13,9 +14,23 @@ const PORT = process.env.PORT || 3000;
 
 const signupRouter = require("./routes/signup");
 const loginRouter = require("./routes/login");
+const activityTrackerRouter = require("./routes/activityTracker")
+
+
+app.use(session({
+    name: "MySessionID",
+    secret: process.env.SESSION_SECRET,
+    resave: false,
+    saveUninitialized: true,
+    cookie: {
+        httpOnly: true,
+        // secure: true //Works on https, not localhost
+    }
+}));
 
 app.use("/signup", signupRouter);
 app.use("/login", loginRouter);
+app.use("/activityTracker", activityTrackerRouter)
 
 
 // app.use(logger)
