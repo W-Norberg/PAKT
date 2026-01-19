@@ -6,10 +6,14 @@
   <body>
     <h1>Activity Tracker</h1>
     <h2>Welcome  <%= locals.userId %></h2>
-    <form method="POST" action="/log">
+    <p id="date"></p>
+    <form method="POST" action="/activityTracker/submitNewActivity">
         <input type="text" name="activity" placeholder="What did you do today?"/>
         <button type="submit">Save</button>
         <!-- Hello <%= locals.text || "Default text" %> -->
     </form>
+     
+    <script src="activityTrackerFront.js/actvityTrackerFront.js" defer></script>
+
   </body>
 </html>

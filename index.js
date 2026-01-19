@@ -1,16 +1,16 @@
 const express = require("express");
-const Database = require("better-sqlite3");
 const session = require("express-session");
+const db = require("./db");
 
 
+//TiDB is a sql cloud sql that is good and should have free 25gb.
+//Is persistent and wont remove data between deploys like render prolly does
 
-const db = new Database("db/app.db");
-db.pragma("foreign_keys = ON");
-let sql;
 
 
 const app = express();
 const PORT = process.env.PORT || 3000;
+
 
 const signupRouter = require("./routes/signup");
 const loginRouter = require("./routes/login");
@@ -27,6 +27,28 @@ app.use(session({
         // secure: true //Works on https, not localhost
     }
 }));
+
+let createUsersTable = `CREATE TABLE IF NOT EXISTS users(
+        id INTEGER PRIMARY KEY,
+        username TEXT NOT NULL UNIQUE,
+        password_hash TEXT NOT NULL,
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+        )`
+
+let createNotesTable = `CREATE TABLE IF NOT EXISTS activities(
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        user_id INTEGER NOT NULL,
+        activity TEXT NOT NULL,
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+        FOREIGN KEY (user_id) REFERENCES users(id)
+            ON DELETE CASCADE
+            ON UPDATE CASCADE
+        )`
+
+
+db.exec(createUsersTable);
+db.exec(createNotesTable);
+
 
 app.use("/signup", signupRouter);
 app.use("/login", loginRouter);
@@ -45,16 +67,8 @@ app.use(express.json());
 //GET home page
 app.get("/", (req, res)=>{
     res.render("home", {values: {}});
-    // if(!req.session.viewCount){
-    //     req.session.viewCount = 1
-    // }else{
-    //     req.session.viewCount += 1;
-    // }
-    // res.render("home", {viewCount: req.session.viewCount});
-    // console.log(req.session.viewCount)
+
 }); 
-
-
 
 // function logger(req, res, next){
 //     console.log(req.originalUrl)

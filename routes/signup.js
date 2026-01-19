@@ -10,15 +10,7 @@ const urlencodedParser = bodyParser.urlencoded({extended: false})
 router.use(express.urlencoded({extended: true}));
 
 
-let createUsersTable = `CREATE TABLE IF NOT EXISTS users(
-        id INTEGER PRIMARY KEY,
-        username TEXT NOT NULL UNIQUE,
-        password_hash TEXT NOT NULL,
-        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-        )`
 
-
-db.exec(createUsersTable)
 
 
 
@@ -69,6 +61,7 @@ router.post("/",
             console.log(`Trying to enter user ${username} into database...`)
             const stmt = db.prepare(insertUser)
             stmt.run(username, password_hash)
+            console.log(`Successfully entered user ${username} into database`)
             res.redirect("/login")
         } catch(err){
             if(err.code === "SQLITE_CONSTRAINT_UNIQUE"){
