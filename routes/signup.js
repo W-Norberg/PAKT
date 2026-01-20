@@ -60,7 +60,7 @@ router.post("/",
         try{
             console.log(`Trying to enter user ${username} into database...`)
             const stmt = db.prepare(insertUser)
-            stmt.run(username, password_hash)
+            await stmt.run(username, password_hash)
             console.log(`Successfully entered user ${username} into database`)
             res.redirect("/login")
         } catch(err){

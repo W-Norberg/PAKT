@@ -8,3 +8,14 @@
   flex-direction: column;
   gap: 8px;
 }
+#loginForm {
+    display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+#activitiesForm {
+    display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
