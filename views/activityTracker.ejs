@@ -5,13 +5,14 @@
   </head>
   <body>
     <h1>Activity Tracker</h1>
-    <h2>Welcome  <%= locals.userId %></h2>
+    <h2>Welcome  <%= locals.username %></h2>
     <p id="date"></p>
     <form method="POST" action="/activityTracker/submitNewActivity">
         <input type="text" name="activity" placeholder="What did you do today?"/>
         <button type="submit">Save</button>
-        <!-- Hello <%= locals.text || "Default text" %> -->
     </form>
+    <h2><%= locals.error %></h2>
+
      
     <script src="activityTrackerFront.js/actvityTrackerFront.js" defer></script>
 

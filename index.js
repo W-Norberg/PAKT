@@ -35,19 +35,30 @@ let createUsersTable = `CREATE TABLE IF NOT EXISTS users(
         created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
         )`
 
-let createNotesTable = `CREATE TABLE IF NOT EXISTS activities(
+let createActivityTable = `CREATE TABLE IF NOT EXISTS activities(
         id INTEGER PRIMARY KEY AUTOINCREMENT,
         user_id INTEGER NOT NULL,
-        activity TEXT NOT NULL,
+        name TEXT NOT NULL,
         created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
         FOREIGN KEY (user_id) REFERENCES users(id)
             ON DELETE CASCADE
-            ON UPDATE CASCADE
+            ON UPDATE CASCADE,
+        UNIQUE (user_id, name)
         )`
+    
+let createActivity_entriesTable = `CREATE TABLE IF NOT EXISTS activity_entries(
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        activity_id INTEGER NOT NULL,
+        amount REAL NOT NULL,
+        entry_date TEXT NOT NULL,
+        created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
+        FOREIGN KEY (activity_id) REFERENCES activites(id)
+)`
 
 
 db.exec(createUsersTable);
-db.exec(createNotesTable);
+db.exec(createActivityTable);
+db.exec(createActivity_entriesTable);
 
 
 app.use("/signup", signupRouter);
