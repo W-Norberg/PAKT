@@ -50,7 +50,6 @@ let createActivity_entriesTable = `CREATE TABLE IF NOT EXISTS activity_entries(
         id INTEGER PRIMARY KEY AUTOINCREMENT,
         activity_id INTEGER NOT NULL,
         amount REAL NOT NULL,
-        entry_date TEXT NOT NULL,
         created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
         FOREIGN KEY (activity_id) REFERENCES activites(id)
 )`

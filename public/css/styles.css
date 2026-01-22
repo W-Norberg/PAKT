@@ -4,18 +4,60 @@
   gap: 8px;
 }
 #homeForm {
-    display: flex;
+  display: flex;
   flex-direction: column;
   gap: 8px;
 }
 #loginForm {
-    display: flex;
+  display: flex;
   flex-direction: column;
   gap: 8px;
 }
 
 #activitiesForm {
-    display: flex;
+  display: flex;
   flex-direction: column;
+  width: 20rem;
+  margin-top: 1rem;
   gap: 8px;
 }
+
+.AvailableActivities label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.AvailableActivities .bigCheck {display: none;}
+.AvailableActivities .smallCheck {display: none;}
+
+.AvailableActivities{
+  display: flex;
+  flex-direction: column;
+}
+
+.AvailableActivities .seatButton{
+  display: flex;
+  flex: 0 0 16rem;
+  align-items: center;
+  justify-content: center;
+
+  min-height: 1.5rem;
+
+  box-sizing: border-box;
+  text-align: center;
+
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+
+
+  padding: 5px;
+  border: 1px solid black;
+  background: white;
+  user-select: none;
+  cursor: pointer;
+}
+
+.AvailableActivities input:checked + .seatButton {background: #00BF00;}
+.AvailableActivities input:checked ~ .smallCheck {display: inline-flex;}

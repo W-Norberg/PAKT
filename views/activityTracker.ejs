@@ -18,10 +18,17 @@
     <small><%= locals.values.error || "" %></small>
 
     <form id="activitiesForm">
-      <% const activities = values.activities.activities %>
-      <% for(let i = 0; i < activities.length; i++){%>
-        <button type="button"><%= activities[i].name %> </button>
-      <%} %>
+      <div class="AvailableActivities">
+        <% const activities = values.activities.activities %>
+        <% for(let i = 0; i < activities.length; i++){%>
+          <label>
+            <img src="pics\trash-can-svgrepo-com.svg" alt="trashIcon" width="10rem">
+            <input type="checkbox" class="bigCheck"/>
+            <span class="seatButton"><%= activities[i].name %> </span>
+            <input type="number" class="smallCheck" min="0" max="9999" step="0.1" class="smallCheck"/>
+          </label>
+        <%} %>
+      </div>
     </form>
 
 
